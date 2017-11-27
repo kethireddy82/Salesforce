@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Boomi On Demand - enroll in Boomi On Demand using your Salesforce account or tie your Salesforce account to an existing Boomi On Demand account.</description>
+    <frameHeight>600</frameHeight>
+    <hasSidebar>false</hasSidebar>
+    <label>Setup</label>
+    <mobileReady>false</mobileReady>
+    <motif>Custom21: Computer</motif>
+    <url>https://ondemand.boomi.com/application/salesforceRegistration.php?SessionId={!API.Session_ID}&amp;ServerURL={!API.Partner_Server_URL_90}&amp;username={!User.Email}</url>
+    <urlEncodingKey>UTF-8</urlEncodingKey>
+</CustomTab>

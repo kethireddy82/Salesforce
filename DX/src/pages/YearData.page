@@ -1,0 +1,44 @@
+<!-- <apex:page standardController="account" extensions="ResponseDisplay" showheader="false" sidebar="false">
+ <apex:pagemessages ></apex:pagemessages>  
+    <apex:pageblock>
+		<apex:pageBlocktable value="{!lresponseInfo}" var="ainfo">
+			<apex:column value="{!ainfo.name1}" headervalue="Month"/>
+			<apex:column value="{!ainfo.name2}" headervalue="No of accounts created"/>
+		</apex:pageBlocktable>
+	</apex:pageblock>
+</apex:page> -->
+
+ <apex:page controller="ResponseDisplay" >
+    <apex:form >
+        <apex:pageBlock title="Monthly Net Amount by Customer">
+            <apex:pageBlockSection >
+            <table>
+                <tr>  
+                    <td>Year</td>
+                    <td>Name</td>
+                 <!--   <td>State</td>
+                    <td>Name1</td>
+                    <td>Name2</td>
+                    <td>Name3</td> -->
+                  
+                </tr>
+                
+                <apex:repeat value="{!response}" var="summary">
+                    <apex:pageBlockSectionItem >
+                        {!summary.Name1__c}
+                        {!summary.Name2__c} 
+                    </apex:pageBlockSectionItem>
+                 <!--   <tr>   
+                        <td><apex:outputText value="{!summary.Year__c}"/></td>
+                        <td><apex:outputText value="{!summary.Name}"/></td>               
+                        <td><apex:outputText value="{!summary.State__c}"/></td>
+                        <td><apex:outputText value="{!summary.Name1__c}"/></td>
+                        <td><apex:outputText value="{!summary.Name2__c}"/></td>
+                        <td><apex:outputText value="{!summary.Name3__c}"/></td>                    
+                    </tr> -->
+                </apex:repeat>
+            </table>
+                </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

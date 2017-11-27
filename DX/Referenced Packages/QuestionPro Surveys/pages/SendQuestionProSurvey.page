@@ -1,0 +1,35 @@
+<apex:page controller="questionpro.ShowMessage" tabStyle="Lead" title="QuestionPro"  standardStylesheets="false"   applyBodyTag="false" docType="html-5.0">
+    <head>
+        <meta charset="utf-8"/>        
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <!-- Import the Design System style sheet -->
+        <apex:slds />
+        <style type="text/css">
+             .slds-inline_icon_text, .slds-inline_icon_text--warning {background-color: #f4f6f9;color: #54698d;padding: .75rem 1rem;}
+             .slds-inline_icon_text--warning {background: #fdfdfd;}
+            .slds-inline_icon_text--error {color: #c23934;background: #fdfdfd;}
+            
+            .slds-inline_icon_text .slds-icon { fill: #54698d;}
+            .slds-inline_icon_text--error .slds-icon {fill: #c23934;}
+            .slds-inline_icon_text--warning .slds-icon {fill: #ffb75d;}
+        </style>
+    </head>    
+    <body>        
+        <div class="slds-scope">
+            <div class="slds-page-header slds-p-left_none">                
+                <div class="col">
+                    <apex:image id="logo" url="{!URLFOR($Resource.questionpro__QuestionPro, 'QuestionPro/QuestionPro-Surveys-Logo-New.png')}"/>
+                </div>
+            </div>
+            <figure class="slds-box slds-m-top_x-large">
+                <div class="slds-inline_icon_text slds-grid">
+                    <svg aria-hidden="true" class="slds-icon slds-icon--small slds-m-right--small slds-col slds-no-flex">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Resource.lighteningSystem, '/assets/icons/utility-sprite/svg/symbols.svg#info')}" ></use>
+                    </svg>
+                    <div class="slds-col slds-align-middle"><p>{!message}</p></div>
+                </div>
+            </figure>
+        </div>
+    </body>
+</apex:page>

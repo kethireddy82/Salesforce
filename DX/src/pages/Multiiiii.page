@@ -1,0 +1,4 @@
+<apex:page standardController="Account" extensions="MultiAttachmentController">
+         <apex:pagemessages ></apex:pagemessages>
+          <c:MultiComp objId="{!$CurrentPage.Parameters.id}"/> 
+    </apex:page>

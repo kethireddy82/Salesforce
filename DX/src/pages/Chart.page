@@ -1,0 +1,61 @@
+<apex:page controller="ChartController">
+    <script>
+    function retrieveChartData(callback) {
+       var year = document.getElementById('theYear').value;
+       Visualforce.remoting.Manager.invokeAction(
+           '{!$RemoteAction.ChartController.getRemotePieData}',
+           year,
+           function(result, event) {
+               if(event.status && result && (result.constructor === Array)) {
+                   callback(result);
+                   RemotingPieChart.show();
+               }
+               else if (event.type === 'exception') {
+                   document.getElementById("remoteResponseErrors").innerHTML = event.message + 
+                       '<br/>' + event.where;
+               }
+               else {
+                   document.getElementById("remoteResponseErrors").innerHTML = event.message;
+               }                   
+           },
+           { escape: true }
+       );
+    }
+    function refreshRemoteChart() {
+        var statusElement = document.getElementById('statusDisplay');
+        statusElement.innerHTML = "loading...";
+        retrieveChartData(function(statusElement){
+                return function(data){
+                    RemotingPieChart.reload(data);
+                    statusElement.innerHTML = '';
+                };
+            }(statusElement)
+        );
+    }
+    </script>
+
+    <apex:pageBlock title="Charts">
+
+        <apex:pageBlockSection title="Visualforce Charting + JavaScript Remoting">
+
+            <apex:chart height="350" width="450" data="retrieveChartData" 
+                name="RemotingPieChart" hidden="true">
+                <apex:pieSeries dataField="data" labelField="name"/>
+                <apex:legend position="right"/>
+            </apex:chart>
+            
+            <div>
+                <select id="theYear" onChange="refreshRemoteChart();">
+                    <option value="2013">2013</option>
+                    <option value="2012">2012</option>
+                    <option value="2011">2011</option>
+                    <option value="2010">2010</option>
+                </select>
+                <span id="statusDisplay"></span>
+                <span id="remoteResponseErrors"></span>
+            </div>
+
+        </apex:pageBlockSection>
+
+    </apex:pageBlock>
+</apex:page>

@@ -1,0 +1,12 @@
+<apex:page controller="mswrapper">
+<apex:pageBlock >
+<apex:pageBlockTable value="{!wrplst}" var="wrvar">
+<apex:column value="{!wrvar.Accname}" headerValue="Account Name" title="Account"/>
+<apex:column value="{!wrvar.accnum}" headerValue="Account Number" title="Account"/>
+<apex:column value="{!wrvar.confstname}" headerValue="Contact FirstName" title="Contact"/>
+<apex:column value="{!wrvar.conlstname}" headerValue="Contact LastName" title="Contact"/>
+<apex:column value="{!wrvar.oppamount}" headerValue="Amount" title="Opportunity"/>
+<apex:column value="{!wrvar.oppstgname}" headerValue="StageName" title="Opportunity"/>
+</apex:pageBlockTable>
+</apex:pageBlock>  
+</apex:page>

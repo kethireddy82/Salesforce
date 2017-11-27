@@ -1,0 +1,19 @@
+<apex:component controller="MultiAttachmentController" allowDML="true">
+<apex:attribute name="objId" type="String" description="The id of the object to manage attachments for" required="true" assignTo="{!sobjId}"/>
+<apex:form id="attachmentForm">
+    <apex:pageBlock title="Upload Attachments">
+        <apex:repeat value="{!newAttachments}" var="newAtt">
+            <apex:pageBlockSection columns="3">
+               <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="File"/>                         
+                    <apex:inputFile value="{!newAtt.body}" filename="{!newAtt.name}"/>
+                </apex:pageBlockSectionItem>
+
+            </apex:pageBlockSection>
+        </apex:repeat>
+        <apex:commandButton value="Add More" action="{!addMore}"/>
+
+        <apex:commandButton value="Save" action="{!save}"/>
+    </apex:pageBlock>
+</apex:form>
+</apex:component>

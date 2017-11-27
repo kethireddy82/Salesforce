@@ -1,0 +1,7 @@
+<apex:page controller="Lookup">
+    <apex:pageBlock >
+        <apex:pageBlockTable value="{!Users}" var="u">
+            <apex:column value="{!u.Name}"/> 
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+</apex:page>

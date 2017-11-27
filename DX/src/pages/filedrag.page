@@ -1,0 +1,322 @@
+<apex:page standardController="case" >
+
+    <script type="text/javascript">
+
+        var __sfdcSessionId = '{!GETSESSIONID()}';
+
+        var filesToUpload = []; 
+
+        var uploadedFile = 0;
+
+  </script>
+
+   <style type="text/css">
+
+.fileUpload {
+
+position: relative;
+
+overflow: hidden;
+
+margin: 10px;
+
+}
+
+.fileUpload input.upload {
+
+position: absolute;
+
+top: 0;
+
+right: 0;
+
+margin: 0;
+
+padding: 0;
+
+font-size: 20px;
+
+cursor: pointer;
+
+opacity: 0;
+
+filter: alpha(opacity=0);
+
+width: 95px !important;
+
+    height: 20px !important;
+
+}
+
+table.gridtable {
+
+font-family: verdana,arial,sans-serif;
+
+font-size:11px;
+
+color:#333333;
+
+border-width: 1px;
+
+border-color: #ccc;
+
+border-collapse: collapse;
+
+}
+
+table.gridtable th {
+
+border-width: 1px;
+
+padding: 8px;
+
+font-weight:bold;
+
+border-style: solid;
+
+border-color: #ccc;
+
+background-color: #f6f6f6;
+
+}
+
+table.gridtable td {
+
+border-width: 1px;
+
+padding: 8px;
+
+border-style: solid;
+
+border-color: #ccc;
+
+background-color: #ffffff;
+
+}
+
+.thdcls{
+
+display:none;
+
+}
+
+  </style>
+
+   
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" />
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+
+<script src="/soap/ajax/32.0/connection.js" type="text/javascript"></script>
+
+
+
+  <script type="text/javascript">
+
+ $ac = jQuery.noConflict();
+
+  document.addEventListener("DOMContentLoaded", init, false);
+
+       function init() {
+
+      document.querySelector('#file-input').addEventListener('change', handleFileSelect, false);   
+
+    }
+
+      function handleFileSelect(e) {
+
+if(!e.target.files) return;
+
+var files = e.target.files;
+
+var count = files.length;
+
+$ac(".tbodycls").html('');
+
+$ac(".thdcls").css("display", "none");
+
+var stable = '';
+
+var fname,ftype;
+
+for(var i=0; i<files.length; i++) {
+
+var f = files[i];
+
+fname= f.name; ftype = '';
+
+var arr = f.name.split('.'); 
+
+ftype = arr[arr.length-1];
+
+stable += "<tr>";
+
+stable += "<td>"+ fname+"</td>";
+
+stable += "<td>"+ ftype+"</td>";
+
+stable += "</tr>";
+
+}
+
+$ac(".thdcls").css("display", "block");
+
+$ac(".tbodycls").html(stable);
+
+}
+
+
+
+      function uploadFile(parentId)
+
+        {
+
+if(parentId.trim() == null && parentId.trim() == ''){
+
+return false;
+
+}
+
+        var input = document.getElementById("file-input");
+
+         var filesToUpload = input.files;
+            alert(filesToUpload);
+
+           for(var i = 0, f; f = filesToUpload[i]; i++)
+
+          {
+
+            var reader = new FileReader();
+
+            // Keep a reference to the File in the FileReader so it can be accessed in callbacks
+
+            reader.file = f;
+
+            reader.onload = function(e)
+
+            {
+
+              var att = new sforce.SObject("Attachment");
+
+              att.Name = this.file.name;
+
+              att.ContentType = this.file.type;
+
+              att.ParentId = parentId;
+
+
+
+              var binary = "";
+
+              var bytes = new Uint8Array(e.target.result);
+
+              var length = bytes.byteLength;
+
+
+
+              for (var i = 0; i < length; i++)
+
+              {
+
+                binary += String.fromCharCode(bytes[i]);
+
+              }
+
+              att.Body = (new sforce.Base64Binary(binary)).toString();
+
+              sforce.connection.create([att],
+
+              {
+
+                onSuccess : function(result, source)
+
+                {
+
+                  if (result[0].getBoolean("success"))
+
+                  {
+
+                    console.log("new attachment created with id " + result[0].id);
+
+alert('Uploaded successfull!!!');
+
+                  }
+
+                  else
+
+                  {
+
+                    console.log("failed to create attachment " + result[0]);
+
+                  }
+
+                },
+
+                onFailure : function(error, source)
+
+                {
+
+                  console.log("an error has occurred " + error);
+
+                }
+
+              });
+
+            };
+
+
+
+            reader.readAsArrayBuffer(f);
+
+          }
+
+
+
+        } 
+
+        </script>
+
+ <apex:form id="myForm">
+
+    <apex:pageBlock title="Attachments"> 
+
+<apex:pageBlockButtons location="top">
+
+<Button type="button" onClick="uploadFile('5000I00000xvta3')"> Upload </Button>
+
+<div class="fileUpload btn btn-primary">
+
+<span>Add Attachment</span>
+
+<input type="file" name="abc[]" multiple="true" class="fileInput upload" id="file-input" accept="application/msword,application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/> 
+
+</div>
+
+    </apex:pageBlockButtons>
+
+<table class="gridtable" width="100%">
+
+<tr class="">
+
+<th style="width:50%"> Name</th>
+
+<th style="width:50%"> Type</th>
+
+</tr>
+
+<tbody class="tbodycls">
+
+
+
+</tbody>
+
+</table>
+
+  </apex:pageBlock> 
+
+  </apex:form>
+
+</apex:page>
